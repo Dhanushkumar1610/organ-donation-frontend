@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organ Donation - Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/register.css">
+</head>
+<body class="font-inter bg-gray-100 flex items-center justify-center h-screen">
+  <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfMB6PcNbshD-Ex82DFHJuZvTdkdYxpYbfPQ&s" alt="Organ Donation Logo" class="w-16 mx-auto mb-4 rounded-full">
+    <h2 class="text-2xl font-bold text-green-800 mb-6">Create Your Account</h2>
+    <form id="register-form" onsubmit="registerUser(event)">
+      <input type="text" name="name" placeholder="Full Name" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+      <input type="email" name="email" placeholder="Email" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+      <input type="tel" name="phone" placeholder="Phone Number" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+      <input type="password" name="password" placeholder="Password" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+      <input type="password" name="confirmPassword" placeholder="Confirm Password" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+      <select name="role" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+        <option value="">Select User Type</option>
+        <option value="donor">Donor</option>
+        <option value="receiver">Receiver</option>
+      </select>
+      <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Register</button>
+      <p class="mt-4 text-sm text-gray-600">Already have an account? <a href="/login.html" class="text-green-600 hover:underline">Login</a></p>
+    </form>
+  </div>
+
+  <script>
+    async function registerUser(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        password: formData.get('password'),
+        confirmPassword: formData.get('confirmPassword'),
+        role: formData.get('role') === 'donor' ? 'user' : 'user', // Both donor and receiver are users
+        userType: formData.get('role'),
+      };
+
+      if (data.password !== data.confirmPassword) {
+        alert('Passwords do not match');
+        return;
+      }
+
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (result.token) {
+        localStorage.setItem('token', result.token);
+        window.location.href = '/user.html';
+      } else {
+        alert(result.msg || 'Registration failed');
+      }
+    }
+  </script>
+</body>
+</html>

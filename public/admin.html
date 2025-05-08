@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Organ Donation System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="font-inter bg-gray-100">
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-green-50 h-screen p-6 fixed shadow-lg">
+      <div class="text-center mb-8">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCoQeLMfajeT4KNamdIttO_ppIpkccWuxeSg&s" alt="Admin Logo" class="w-16 mx-auto rounded-full">
+        <h3 class="mt-2 text-lg font-semibold text-green-800">Admin Panel</h3>
+      </div>
+      <nav id="nav-menu">
+        <a href="#" onclick="showSection('dashboard')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🏠 Dashboard</a>
+        <a href="#" onclick="showSection('manageDoctors')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">👨‍⚕️ Manage Doctors</a>
+        <a href="#" onclick="showSection('manageHospitals')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🏥 Manage Hospitals</a>
+        <a href="#" onclick="showSection('manageUsers')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🧑‍🤝‍🧑 Manage Users</a>
+        <a href="#" onclick="showSection('organDonations')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🫀 Organ Donations</a>
+        <a href="#" onclick="showSection('organRequests')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">📥 Organ Requests</a>
+        <a href="#" onclick="showSection('organTransfer')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🚚 Organ Transfer</a>
+        <a href="#" onclick="showSection('adminProfile')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">👨‍💼 Admin Profile</a>
+        <a href="/login.html" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="ml-64 p-8 flex-1">
+      <div id="dashboard" class="dashboard-section p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Welcome Admin 👨‍💼</h2>
+        <p class="text-gray-600 mb-6">Monitor and manage the entire organ donation system efficiently.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 bg-green-50 rounded-lg shadow">
+            <h3 class="text-lg font-semibold text-green-700">👨‍⚕️ Total Doctors</h3>
+            <p id="total-doctors" class="text-2xl font-bold text-gray-800">15</p>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg shadow">
+            <h3 class="text-lg font-semibold text-green-700">🧑‍🤝‍🧑 Total Users</h3>
+            <p id="total-users" class="text-2xl font-bold text-gray-800">120</p>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg shadow">
+            <h3 class="text-lg font-semibold text-green-700">🫀 Organs Donated</h3>
+            <p id="organs-donated" class="text-2xl font-bold text-gray-800">52</p>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg shadow">
+            <h3 class="text-lg font-semibold text-green-700">📥 Pending Requests</h3>
+            <p id="pending-requests" class="text-2xl font-bold text-gray-800">8</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="manageDoctors" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Manage Doctors</h2>
+        <form id="add-doctor-form" onsubmit="addDoctor(event)">
+          <input type="text" name="name" placeholder="Doctor Name" required class="w-full p-3 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <input type="email" name="email" placeholder="Email ID" required class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <input type="text" name="hospital" placeholder="Assigned Hospital" required class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button type="submit" class="w-full py-3 mt-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Add Doctor</button>
+        </form>
+      </div>
+
+      <div id="manageHospitals" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Manage Hospitals</h2>
+        <form id="add-hospital-form" onsubmit="addHospital(event)">
+          <input type="text" name="name" placeholder="Hospital Name" required class="w-full p-3 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <input type="text" name="location" placeholder="Location" required class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button type="submit" class="w-full py-3 mt-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Add Hospital</button>
+        </form>
+      </div>
+
+      <div id="manageUsers" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Manage Users</h2>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-green-100">
+              <th class="border p-3 text-left">User ID</th>
+              <th class="border p-3 text-left">Name</th>
+              <th class="border p-3 text-left">Email</th>
+              <th class="border p-3 text-left">Registered On</th>
+            </tr>
+          </thead>
+          <tbody id="users-table">
+            <tr>
+              <td class="border p-3">USR001</td>
+              <td class="border p-3">Akash N</td>
+              <td class="border p-3">akash@example.com</td>
+              <td class="border p-3">2025-04-10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="organDonations" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Organ Donations</h2>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-green-100">
+              <th class="border p-3 text-left">Donation ID</th>
+              <th class="border p-3 text-left">Donor Name</th>
+              <th class="border p-3 text-left">Organ</th>
+              <th class="border p-3 text-left">Status</th>
+              <th class="border p-3 text-left">Date</th>
+            </tr>
+          </thead>
+          <tbody id="donations-table">
+            <tr>
+              <td class="border p-3">DON001</td>
+              <td class="border p-3">Ravi Kumar</td>
+              <td class="border p-3">Kidney</td>
+              <td class="border p-3">Stored</td>
+              <td class="border p-3">2025-04-10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="organRequests" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Organ Requests</h2>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-green-100">
+              <th class="border p-3 text-left">Request ID</th>
+              <th class="border p-3 text-left">Requested By</th>
+              <th class="border p-3 text-left">Organ</th>
+              <th class="border p-3 text-left">Status</th>
+              <th class="border p-3 text-left">Assign Doctor</th>
+            </tr>
+          </thead>
+          <tbody id="requests-table">
+            <tr>
+              <td class="border p-3">REQ001</td>
+              <td class="border p-3">Dr. Priya</td>
+              <td class="border p-3">Heart</td>
+              <td class="border p-3">Pending</td>
+              <td class="border p-3"><button class="assign-btn">Assign</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="organTransfer" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Organ Transfer</h2>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-green-100">
+              <th class="border p-3 text-left">Transfer ID</th>
+              <th class="border p-3 text-left">Organ</th>
+              <th class="border p-3 text-left">From Hospital</th>
+              <th class="border p-3 text-left">To Hospital</th>
+              <th class="border p-3 text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody id="transfers-table">
+            <tr>
+              <td class="border p-3">TRF001</td>
+              <td class="border p-3">Liver</td>
+              <td class="border p-3">City Hospital</td>
+              <td class="border p-3">GreenCare Hospital</td>
+              <td class="border p-3">In Transit</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="adminProfile" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Admin Profile</h2>
+        <ul class="space-y-2">
+          <li><strong>Name:</strong> Kumar</li>
+          <li><strong>Email:</strong> admin@organdonate.in</li>
+          <li><strong>Role:</strong> System Administrator</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const BACKEND_URL = 'https://your-backend-url.onrender.com'; // Replace with your Render backend URL
+
+    function showSection(id) {
+      document.querySelectorAll('.dashboard-section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    async function addDoctor(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        hospital: formData.get('hospital'),
+      };
+
+      const response = await fetch(`${BACKEND_URL}/api/admin/doctors`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert(result.msg || 'Doctor added successfully');
+    }
+
+    async function addHospital(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = {
+        name: formData.get('name'),
+        location: formData.get('location'),
+      };
+
+      const response = await fetch(`${BACKEND_URL}/api/admin/hospitals`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert(result.msg || 'Hospital added successfully');
+    }
+
+    window.onload = () => showSection('dashboard');
+  </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard - Organ Donation System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/doctor.css">
+</head>
+<body class="font-inter bg-gray-100">
+  <div class="flex">
+    <aside class="w-64 bg-green-50 h-screen p-6 fixed shadow-lg">
+      <div class="text-center mb-8">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCoQeLMfajeT4KNamdIttO_ppIpkccWuxeSg&s" alt="Organ Logo" class="w-16 mx-auto rounded-full">
+        <h2 class="mt-2 text-lg font-semibold text-green-800">Organ Donate</h2>
+      </div>
+      <nav>
+        <a href="#" onclick="showSection('newRequests')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🗂️ New Organ Requests</a>
+        <a href="#" onclick="showSection('updateRequestStatus')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🔄 Update Request Status</a>
+        <a href="#" onclick="showSection('organCollection')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🚚 Organ Collection</a>
+        <a href="#" onclick="showSection('verifyOtp')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🔐 Verify OTP</a>
+        <a href="#" onclick="showSection('myProfile')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">👨‍⚕️ My Profile</a>
+        <a href="/doctor-login.html" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <main class="ml-64 p-8 flex-1">
+      <header class="mb-6">
+        <h1 class="text-2xl font-bold text-green-800">Welcome, Doctor 👨‍⚕️</h1>
+        <p class="text-gray-600">Handle organ requests and save lives ❤️</p>
+      </header>
+
+      <div id="newRequests" class="dashboard-section p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-xl font-bold text-green-800 mb-4">New Organ Requests</h2>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-green-100">
+              <th class="border p-3 text-left">Request ID</th>
+              <th class="border p-3 text-left">Patient Name</th>
+              <th class="border p-3 text-left">Organ</th>
+              <th class="border p-3 text-left">Urgency</th>
+              <th class="border p-3 text-left">Status</th>
+              <th class="border p-3 text-left">Date</th>
+              <th class="border p-3 text-left">Action</th>
+            </tr>
+          </thead>
+          <tbody id="new-requests-table">
+            <tr>
+              <td class="border p-3">REQ001</td>
+              <td class="border p-3">Ravi Kumar</td>
+              <td class="border p-3">Kidney</td>
+              <td class="border p-3">High</td>
+              <td class="border p-3">Pending</td>
+              <td class="border p-3">2025-04-19</td>
+              <td class="border p-3"><button class="view-btn">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="updateRequestStatus" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-xl font-bold text-green-800 mb-4">Update Request Status</h2>
+        <form id="update-request-form" onsubmit="updateRequestStatus(event)">
+          <input type="text" name="requestId" placeholder="Request ID" required class="w-full p-3 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <select name="status" required class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+            <option value="">Select New Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Available">Available</option>
+            <option value="Unavailable">Unavailable</option>
+          </select>
+          <textarea name="note" placeholder="Doctor's Note (optional)" class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+          <button type="submit" class="w-full py-3 mt-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Update Status</button>
+        </form>
+      </div>
+
+      <div id="organCollection" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-xl font-bold text-green-800 mb-4">Organ Collection</h2>
+        <form id="organ-collection-form" onsubmit="markOrganCollected(event)">
+          <input type="text" name="donorId" placeholder="Donor ID" required class="w-full p-3 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <select name="organ" required class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+            <option value="">Select Collected Organ</option>
+            <option value="Kidney">Kidney</option>
+            <option value="Liver">Liver</option>
+            <option value="Heart">Heart</option>
+            <option value="Lungs">Lungs</option>
+          </select>
+          <input type="date" name="date" required class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button type="submit" class="w-full py-3 mt-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Mark as Collected</button>
+        </form>
+      </div>
+
+      <div id="verifyOtp" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-xl font-bold text-green-800 mb-4">Verify OTP</h2>
+        <form id="verify-otp-form" onsubmit="verifyOtp(event)">
+          <input type="text" name="patientId" placeholder="Patient ID" required class="w-full p-3 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <input type="text" name="mobile" placeholder="Enter Mobile Number" required class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <input type="text" name="otp" placeholder="Enter OTP" required class="w-full p-3 mt-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button type="submit" class="w-full py-3 mt-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Verify</button>
+        </form>
+      </div>
+
+      <div id="myProfile" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-xl font-bold text-green-800 mb-4">My Profile</h2>
+        <ul class="space-y-2">
+          <li><strong>👨‍⚕️ Doctor ID:</strong> DOC1023</li>
+          <li><strong>Name:</strong> Dr. Arjun Rao</li>
+          <li><strong>Email:</strong> arjun.rao@hospital.com</li>
+          <li><strong>Hospital:</strong> GreenLife Medicals</li>
+          <li><strong>Specialization:</strong> Organ Transplantation</li>
+          <li><strong>Contact:</strong> +91 99887 66554</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+  <footer class="bg-green-50 p-6 text-center">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div>
+        <h3 class="text-lg font-semibold text-green-800">About Organ Donation</h3>
+        <p class="text-gray-600">Organ donation saves lives. A single donor can save up to 8 lives. As a doctor, you play a vital role in this mission.</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold text-green-800">Support</h3>
+        <ul class="text-gray-600">
+          <li>📞 +91 98765 43210</li>
+          <li>📧 support@organdonate.in</li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-gray-600">© 2025 Organ Donation System | Doctor Panel</div>
+  </footer>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.dashboard-section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    async function updateRequestStatus(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = {
+        requestId: formData.get('requestId'),
+        status: formData.get('status'),
+        note: formData.get('note'),
+      };
+
+      const response = await fetch(`/api/doctor/requests/${data.requestId}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert(result.msg || 'Status updated successfully');
+    }
+
+    async function markOrganCollected(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = {
+        donorId: formData.get('donorId'),
+        organ: formData.get('organ'),
+        date: formData.get('date'),
+      };
+
+      const response = await fetch('/api/doctor/organ-collection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert(result.msg || 'Organ marked as collected');
+    }
+
+    async function verifyOtp(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = {
+        patientId: formData.get('patientId'),
+        mobile: formData.get('mobile'),
+        otp: formData.get('otp'),
+      };
+
+      const response = await fetch('/api/doctor/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert(result.msg || 'OTP verified successfully');
+    }
+
+    window.onload = () => showSection('newRequests');
+  </script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard - Organ Donation System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/user.css">
+</head>
+<body class="font-inter bg-gray-100">
+  <div class="flex">
+    <aside class="w-64 bg-green-50 h-screen p-6 fixed shadow-lg">
+      <div class="text-center mb-8">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCoQeLMfajeT4KNamdIttO_ppIpkccWuxeSg&s" alt="Organ Logo" class="w-16 mx-auto rounded-full">
+        <h2 class="mt-2 text-lg font-semibold text-green-800">Organ Donate</h2>
+      </div>
+      <nav>
+        <a href="#" onclick="showSection('dashboard')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🏠 Dashboard</a>
+        <a href="#" onclick="showSection('requestOrgan')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">📥 Request Organ</a>
+        <a href="#" onclick="showSection('donateOrgan')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🫀 Donate Organ</a>
+        <a href="#" onclick="showSection('myRequests')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">📜 My Requests</a>
+        <a href="#" onclick="showSection('myProfile')" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">👤 My Profile</a>
+        <a href="/login.html" class="block py-2 px-4 mb-2 text-green-700 hover:bg-green-100 rounded-md transition">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <main class="ml-64 p-8 flex-1">
+      <div id="dashboard" class="dashboard-section p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Welcome User 👤</h2>
+        <p class="text-gray-600 mb-6">Contribute to saving lives through organ donation.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 bg-green-50 rounded-lg shadow">
+            <h3 class="text-lg font-semibold text-green-700">🫀 Organs Donated</h3>
+            <p id="user-donations" class="text-2xl font-bold text-gray-800">0</p>
+          </div>
+          <div class="p-4 bg-green-50 rounded-lg shadow">
+            <h3 class="text-lg font-semibold text-green-700">📥 Pending Requests</h3>
+            <p id="user-requests" class="text-2xl font-bold text-gray-800">0</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="requestOrgan" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Request Organ</h2>
+        <form id="request-organ-form" onsubmit="requestOrgan(event)">
+          <select name="organ" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+            <option value="">Select Organ</option>
+            <option value="Kidney">Kidney</option>
+            <option value="Liver">Liver</option>
+            <option value="Heart">Heart</option>
+            <option value="Lungs">Lungs</option>
+          </select>
+          <select name="urgency" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+            <option value="">Select Urgency</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+          <textarea name="description" placeholder="Description (optional)" class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+          <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Submit Request</button>
+        </form>
+      </div>
+
+      <div id="donateOrgan" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">Donate Organ</h2>
+        <form id="donate-organ-form" onsubmit="donateOrgan(event)">
+          <select name="organ" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+            <option value="">Select Organ</option>
+            <option value="Kidney">Kidney</option>
+            <option value="Liver">Liver</option>
+            <option value="Heart">Heart</option>
+            <option value="Lungs">Lungs</option>
+          </select>
+          <input type="date" name="date" required class="w-full p-3 mb-4 border border-green-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Donate</button>
+        </form>
+      </div>
+
+      <div id="myRequests" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">My Requests</h2>
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-green-100">
+              <th class="border p-3 text-left">Request ID</th>
+              <th class="border p-3 text-left">Organ</th>
+              <th class="border p-3 text-left">Urgency</th>
+              <th class="border p-3 text-left">Status</th>
+              <th class="border p-3 text-left">Date</th>
+            </tr>
+          </thead>
+          <tbody id="my-requests-table">
+            <tr>
+              <td class="border p-3">REQ003</td>
+              <td class="border p-3">Kidney</td>
+              <td class="border p-3">Medium</td>
+              <td class="border p-3">Pending</td>
+              <td class="border p-3">2025-04-20</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="myProfile" class="dashboard-section hidden p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-green-800 mb-4">My Profile</h2>
+        <ul class="space-y-2">
+          <li><strong>Name:</strong> Akash N</li>
+          <li><strong>Email:</strong> akash@example.com</li>
+          <li><strong>Phone:</strong> +91 98765 43210</li>
+          <li><strong>User Type:</strong> Donor</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.dashboard-section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    async function requestOrgan(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = {
+        organ: formData.get('organ'),
+        urgency: formData.get('urgency'),
+        description: formData.get('description'),
+      };
+
+      const response = await fetch('/api/user/request-organ', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert(result.msg || 'Request submitted successfully');
+    }
+
+    async function donateOrgan(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = {
+        organ: formData.get('organ'),
+        date: formData.get('date'),
+      };
+
+      const response = await fetch('/api/user/donate-organ', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      alert(result.msg || 'Donation submitted successfully');
+    }
+
+    window.onload = () => showSection('dashboard');
+  </script>
+</body>
+</html>
